@@ -1,0 +1,430 @@
+{
+	"info": {
+		"_postman_id": "70be2736-e470-4003-94a9-c738751630f3",
+		"name": "ENSEK TEST",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "28782654"
+	},
+	"item": [
+		{
+			"name": "GET Energy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://qacandidatetest.ensek.io/ENSEK/energy",
+					"protocol": "https",
+					"host": [
+						"qacandidatetest",
+						"ensek",
+						"io"
+					],
+					"path": [
+						"ENSEK",
+						"energy"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT - buy electric energy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Validate purchase response message\", function () {\r",
+							"    var responseJson = pm.response.json();\r",
+							"    var message = responseJson.message;\r",
+							"\r",
+							"    // Log the response message for debugging\r",
+							"    // console.log(\"Response message: \" + message);\r",
+							"\r",
+							"    // Regular expression to validate the message format\r",
+							"    // Accounting for potential variations in number format and spacing\r",
+							"    var regex = /You have purchased \\d+ kWh at a cost of [\\d.]+ there are \\d+ units remaining\\. Your order\\s+id is [\\w-]+./;\r",
+							"    pm.expect(regex.test(message)).to.be.true, \"Response message does not match expected format\";\r",
+							"\r",
+							"    // Extract and store the order ID for further tests\r",
+							"    var electricityOrderIdRegex = /Your order\\s+id is ([\\w-]+)/;\r",
+							"    var electricityOrderIdMatch = electricityOrderIdRegex.exec(message);\r",
+							"    pm.expect(electricityOrderIdMatch).to.not.be.null, \"Order ID not found in message\";\r",
+							"\r",
+							"    if (electricityOrderIdMatch && electricityOrderIdMatch.length > 1) {\r",
+							"        var electricityOrderId = electricityOrderIdMatch[1];\r",
+							"        pm.environment.set(\"recentOrderId\", electricityOrderId);\r",
+							"        console.log(electricityOrderId)\r",
+							"    }\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "https://qacandidatetest.ensek.io/ENSEK/buy/3/5",
+					"protocol": "https",
+					"host": [
+						"qacandidatetest",
+						"ensek",
+						"io"
+					],
+					"path": [
+						"ENSEK",
+						"buy",
+						"3",
+						"5"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT - buy gas energy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Validate purchase response message\", function () {\r",
+							"    var responseJson = pm.response.json();\r",
+							"    var message = responseJson.message;\r",
+							"\r",
+							"    // Log the response message for debugging\r",
+							"    // console.log(\"Response message: \" + message);\r",
+							"\r",
+							"    // Regular expression to validate the message format\r",
+							"    // Accounting for potential variations in number format and spacing\r",
+							"    var regex = /You have purchased \\d+ m³ at a cost of [\\d.]+ there are \\d+ units remaining\\. Your order\\s+id is [\\w-]+./;\r",
+							"    pm.expect(regex.test(message)).to.be.true, \"Response message does not match expected format\";\r",
+							"\r",
+							"    // Extract and store the order ID for further tests\r",
+							"    var gasOrderIdRegex = /Your order\\s+id is ([\\w-]+)/;\r",
+							"    var gasOrderIdMatch = gasOrderIdRegex.exec(message);\r",
+							"    pm.expect(gasOrderIdMatch).to.not.be.null, \"Order ID not found in message\";\r",
+							"\r",
+							"    if (gasOrderIdMatch && gasOrderIdMatch.length > 1) {\r",
+							"        var gasOrderId = gasOrderIdMatch[1];\r",
+							"        pm.environment.set(\"gasRecentOrderId\", gasOrderId);\r",
+							"        console.log(gasOrderId)\r",
+							"    }\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "https://qacandidatetest.ensek.io/ENSEK/buy/1/2",
+					"protocol": "https",
+					"host": [
+						"qacandidatetest",
+						"ensek",
+						"io"
+					],
+					"path": [
+						"ENSEK",
+						"buy",
+						"1",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT - buy nuclear energy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Validate purchase response message\", function () {\r",
+							"    var responseJson = pm.response.json();\r",
+							"    var message = responseJson.message;\r",
+							"\r",
+							"    pm.expect(message).to.eql(\"There is no nuclear fuel to purchase!\");\r",
+							"    // If I had more time, I'd update with test with if/ else statements to cover the scenarios where there is and isn't fuel available. \r",
+							"});\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "https://qacandidatetest.ensek.io/ENSEK/buy/2/20",
+					"protocol": "https",
+					"host": [
+						"qacandidatetest",
+						"ensek",
+						"io"
+					],
+					"path": [
+						"ENSEK",
+						"buy",
+						"2",
+						"20"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT - buy oil energy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Validate purchase response message\", function () {\r",
+							"    var responseJson = pm.response.json();\r",
+							"    var message = responseJson.message;\r",
+							"\r",
+							"    // Regular expression to validate the message format\r",
+							"    // Accounting for potential variations in number format and spacing\r",
+							"    var regex = /You have purchased \\d+ Litres at a cost of [\\d.]+ there are \\d+ units remaining\\. Your order\\s+id is [\\w-]+./;\r",
+							"    \r",
+							"    // note: this test will fail due to a grammatical erorr in the repsone \"Your orderid\" should be \"Your order id\"\r",
+							"\r",
+							"    pm.expect(regex.test(message)).to.be.true, \"Response message does not match expected format\";\r",
+							"\r",
+							"    // Extract and store the order ID for further tests\r",
+							"    var oilOrderIdRegex = /Your order\\s+id is ([\\w-]+)/;\r",
+							"    var oilOrderIdMatch = oilOrderIdRegex.exec(message);\r",
+							"    pm.expect(gasOrderIdMatch).to.not.be.null, \"Order ID not found in message\";\r",
+							"\r",
+							"    if (oilgasOrderIdMatch && oilgasOrderIdMatch.length > 1) {\r",
+							"        var oilOrderId = oilOrderIdMatch[1];\r",
+							"        pm.environment.set(\"oilRecentOrderId\", oilOrderId);\r",
+							"    }\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "https://qacandidatetest.ensek.io/ENSEK/buy/4/10",
+					"protocol": "https",
+					"host": [
+						"qacandidatetest",
+						"ensek",
+						"io"
+					],
+					"path": [
+						"ENSEK",
+						"buy",
+						"4",
+						"10"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Orders",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Retrieve the saved order ID\r",
+							"var savedOrderId = pm.environment.get(\"recentOrderId\");\r",
+							"var gasSavedOrderId = pm.environment.get(\"gasRecentOrderId\");\r",
+							"// var NuclearSavedOrderId = pm.environment.get(\"recentOrderId\");\r",
+							"var oilSavedOrderId = pm.environment.get(\"oilRecentOrderId\");\r",
+							"\r",
+							"pm.test(\"Check if electricity recent order is in orders list\", function () {\r",
+							"    var responseJson = pm.response.json();\r",
+							"\r",
+							"    var orderFound = false;\r",
+							"\r",
+							"    for (var i = 0; i < responseJson.length; i++) {\r",
+							"        // Check both 'Id' and 'id' due to inconsistent key naming\r",
+							"        if (responseJson[i].Id === savedOrderId || responseJson[i].id === savedOrderId) {\r",
+							"            orderFound = true;\r",
+							"            break;\r",
+							"        }\r",
+							"    }\r",
+							"\r",
+							"    pm.expect(orderFound, \"Recent order ID should be in the orders list\").to.be.true;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Check if gas recent order is in orders list\", function () {\r",
+							"    var responseJson = pm.response.json();\r",
+							"\r",
+							"    var orderFound = false;\r",
+							"\r",
+							"    for (var i = 0; i < responseJson.length; i++) {\r",
+							"        // Check both 'Id' and 'id' due to inconsistent key naming\r",
+							"        if (responseJson[i].Id === gasSavedOrderId || responseJson[i].id === gasSavedOrderId) {\r",
+							"            orderFound = true;\r",
+							"            break;\r",
+							"        }\r",
+							"    }\r",
+							"\r",
+							"    pm.expect(orderFound, \"Gas recent order ID should be in the orders list\").to.be.true;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Check if oil recent order is in orders list\", function () {\r",
+							"    var responseJson = pm.response.json();\r",
+							"\r",
+							"    var orderFound = false;\r",
+							"\r",
+							"    for (var i = 0; i < responseJson.length; i++) {\r",
+							"        // Check both 'Id' and 'id' due to inconsistent key naming\r",
+							"        if (responseJson[i].Id === oilSavedOrderId || responseJson[i].id === oilSavedOrderId) {\r",
+							"            orderFound = true;\r",
+							"            break;\r",
+							"        }\r",
+							"    }\r",
+							"\r",
+							"    pm.expect(orderFound, \"Oil recent order ID should be in the orders list\").to.be.true;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Count orders created before the current date\", function () {\r",
+							"    var responseJson = pm.response.json();\r",
+							"    var currentDate = new Date();\r",
+							"    var count = 0;\r",
+							"\r",
+							"    responseJson.forEach(order => {\r",
+							"        var orderDate = new Date(order.time); // Replace 'orderDate' with the actual field name\r",
+							"        if (orderDate < currentDate) {\r",
+							"            count++;\r",
+							"        }\r",
+							"    });\r",
+							"\r",
+							"    console.log(\"Number of orders created before current date: \" + count);\r",
+							"    pm.environment.set(\"ordersBeforeCurrentDate\", count);\r",
+							"\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://qacandidatetest.ensek.io/ENSEK/orders",
+					"protocol": "https",
+					"host": [
+						"qacandidatetest",
+						"ensek",
+						"io"
+					],
+					"path": [
+						"ENSEK",
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST reset order",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is not 401\", function () {\r",
+							"    pm.expect(pm.response.code).to.not.eql(401);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "https://qacandidatetest.ensek.io/ENSEK/reset",
+					"protocol": "https",
+					"host": [
+						"qacandidatetest",
+						"ensek",
+						"io"
+					],
+					"path": [
+						"ENSEK",
+						"reset"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
